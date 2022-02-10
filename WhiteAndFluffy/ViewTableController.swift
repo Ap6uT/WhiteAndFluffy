@@ -82,7 +82,7 @@ class Cell: UITableViewCell {
     lazy var label: UILabel = {
         let lbl = UILabel(frame: CGRect(x: 116, y: 42, width: backView.frame.width - 116, height: 30))
         lbl.textAlignment = .left
-        return label
+        return lbl
     }()
     
     

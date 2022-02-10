@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import UnsplashPhotoPicker
+
+let accessKey = "tvCN4KHOqP437rwLdZN5ewkiLM98qDIbF6GIPr_wfJk"
+let secretKey = "uWbXmVkp_PhD3AvLUcdKnpGCwpBC3LDDvoAdogCSvf0"
 
 class ViewController: UIViewController {
     
@@ -24,6 +28,9 @@ class ViewController: UIViewController {
         
         self.view.addSubview(label)
         // Do any additional setup after loading the view.
+        
+        let arr = UnsplashPhotoPickerConfiguration(accessKey: accessKey, secretKey: secretKey)
+        // let photo = UnsplashPhoto()
     }
     
     override func viewWillAppear(_ animated: Bool) {
