@@ -6,12 +6,25 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ViewTableController: UIViewController {
+    
+    let photos = Photos()
     
     class func speciman() -> ViewTableController {
         return ViewTableController()
     }
+    
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
+        table.delegate = self
+        table.dataSource = self
+        table.backgroundColor = .red
+        table.frame = self.view.frame
+        view.addSubview(table)
+        return table
+    }()
     
     var arr = [String]()
 
@@ -19,18 +32,17 @@ class ViewTableController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         print("table")
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = .red
-        tableView.frame = self.view.frame
-        self.view.addSubview(tableView)
+        
         
         arr = ["cat", "cat smaller", "a little cat", "жесть"]
         
         tableView.register(Cell.self, forCellReuseIdentifier: "Cell")
         
-        // Do any additional setup after loading the view.
+        photos.getRandom(completion: { [weak self] success in
+            self?.tableView.reloadData()
+        })
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,12 +66,13 @@ class ViewTableController: UIViewController {
 extension ViewTableController: UITableViewDelegate, UITableViewDataSource {
      
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return arr.count
+       return photos.content.count
      }
      
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {fatalError("Unabel to create cell")}
-       cell.label.text = arr[indexPath.row]
+       cell.label.text = ""
+       cell.image.kf.setImage(with: URL(string: photos.content[indexPath.row].urls?.small ?? ""))
          
        return cell
      }
@@ -85,6 +98,10 @@ class Cell: UITableViewCell {
         return lbl
     }()
     
+    lazy var image: UIImageView = {
+        let img = UIImageView(frame: CGRect(x: 10, y: 6, width: self.frame.width - 20, height: 110))
+        return img
+    }()
     
 
     override func awakeFromNib() {
@@ -103,6 +120,7 @@ class Cell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         addSubview(backView)
         backView.addSubview(label)
+        backView.addSubview(image)
     }
 
 }

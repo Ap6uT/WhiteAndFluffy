@@ -6,10 +6,6 @@
 //
 
 import UIKit
-import UnsplashPhotoPicker
-
-let accessKey = "tvCN4KHOqP437rwLdZN5ewkiLM98qDIbF6GIPr_wfJk"
-let secretKey = "uWbXmVkp_PhD3AvLUcdKnpGCwpBC3LDDvoAdogCSvf0"
 
 class ViewController: UIViewController {
     
@@ -27,10 +23,6 @@ class ViewController: UIViewController {
         label.textColor = .white
         
         self.view.addSubview(label)
-        // Do any additional setup after loading the view.
-        
-        let arr = UnsplashPhotoPickerConfiguration(accessKey: accessKey, secretKey: secretKey)
-        // let photo = UnsplashPhoto()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,14 +30,5 @@ class ViewController: UIViewController {
         print("hohoho")
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -1,16 +1,16 @@
 PODS:
-  - UnsplashPhotoPicker (1.2.0)
+  - Kingfisher (7.1.2)
 
 DEPENDENCIES:
-  - UnsplashPhotoPicker (~> 1.2)
+  - Kingfisher (~> 7.0)
 
 SPEC REPOS:
   trunk:
-    - UnsplashPhotoPicker
+    - Kingfisher
 
 SPEC CHECKSUMS:
-  UnsplashPhotoPicker: 09400fc1e84dfd04144fa8b204135e6bd2bc5bb2
+  Kingfisher: 44ed6a8504763f27bab46163adfac83f5deb240c
 
-PODFILE CHECKSUM: 4c3af3237ebf7b0c6cf44c8386fc27d32cd1eb93
+PODFILE CHECKSUM: 007beef96ce938e99eec5883cff22938cf555e6b
 
 COCOAPODS: 1.11.2

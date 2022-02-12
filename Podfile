@@ -4,6 +4,6 @@ inhibit_all_warnings!
 
 target 'WhiteAndFluffy' do
 
-  pod 'UnsplashPhotoPicker', '~> 1.2'
+	pod 'Kingfisher', '~> 7.0'
 
 end
