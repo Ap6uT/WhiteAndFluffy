@@ -25,8 +25,8 @@ class MainViewController: UITabBarController {
     
     func setup() {
         viewControllers = [
-            vcForTabBar(ViewController.speciman(), icon: UIImage(systemName: "house")!),
-            vcForTabBar(ViewTableController.speciman(), icon: UIImage(systemName: "person")!),
+            vcForTabBar(SearchController.speciman(), icon: UIImage(systemName: "house")!),
+            vcForTabBar(LikeController.speciman(), icon: UIImage(systemName: "person")!),
         ]
     }
     

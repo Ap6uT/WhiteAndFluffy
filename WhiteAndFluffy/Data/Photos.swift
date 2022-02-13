@@ -15,9 +15,25 @@ class Photos {
     private var dataTask: URLSessionDataTask?
     private var imageTask: URLSessionDownloadTask?
     
-    var content = [PhotoInfo]()
+    private var content = [PhotoInfo]()
+    var count: Int { content.count }
     
-    var currentPage: Int = 0
+    private var totalPages = 1
+    
+    func getPhoto(by index: Int) -> PhotoInfo? {
+        if index < count && index >= 0 {
+            return content[index]
+        }
+        return nil
+    }
+    
+    private var currentPage: Int = 0
+    
+    func clean() {
+        totalPages = 1
+        currentPage = 0
+        content = []
+    }
     
     let imageCache = NSCache<AnyObject, AnyObject>()
     
@@ -26,14 +42,33 @@ class Photos {
     func getRandom(completion: @escaping (Bool) -> Void) {
         isLoading = true
         // let nextPage = currentPage + 1
-        unsplash.randomPhotos(success: { data in
+        unsplash.randomPhotos(success: { data, totalPages in
             self.content += data
+//            self.totalPages = totalPages
             completion(true)
             self.isLoading = false
         }, failure: { error in
             print(error)
             self.isLoading = false
         })
+    }
+    
+    func getSearch(by keyword: String, completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        let nextPage = currentPage + 1
+        print(currentPage)
+        if nextPage <= totalPages {
+            unsplash.searchPhotos(keyword: keyword, page: nextPage, success: { data, totalPages in
+                self.content += data
+                self.totalPages = totalPages
+                completion(true)
+                self.isLoading = false
+                self.currentPage += 1
+            }, failure: { error in
+                print(error)
+                self.isLoading = false
+            })
+        }
     }
     
     

@@ -8,7 +8,7 @@
 import Foundation
 
 extension Unsplash {
-    public func randomPhotos(success: SuccessHandler?, failure: FailureHandler? = nil) {
-        request("photos/random", parameters: ["count":30], success: success, failure: failure)
+    func randomPhotos(success: SuccessHandler?, failure: FailureHandler? = nil) {
+        request("photos/random", parameters: ["count": 30], success: success, failure: failure)
     }
 }

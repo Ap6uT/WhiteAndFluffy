@@ -8,12 +8,12 @@
 import UIKit
 import Kingfisher
 
-class ViewTableController: UIViewController {
+class LikeController: UIViewController {
     
     let photos = Photos()
     
-    class func speciman() -> ViewTableController {
-        return ViewTableController()
+    class func speciman() -> LikeController {
+        return LikeController()
     }
     
     private lazy var tableView: UITableView = {
@@ -63,16 +63,16 @@ class ViewTableController: UIViewController {
 
 }
 
-extension ViewTableController: UITableViewDelegate, UITableViewDataSource {
+extension LikeController: UITableViewDelegate, UITableViewDataSource {
      
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return photos.content.count
+       return photos.count
      }
      
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {fatalError("Unabel to create cell")}
        cell.label.text = ""
-       cell.image.kf.setImage(with: URL(string: photos.content[indexPath.row].urls?.small ?? ""))
+       cell.image.kf.setImage(with: URL(string: photos.getPhoto(by: indexPath.row)?.urls?.small ?? ""))
          
        return cell
      }

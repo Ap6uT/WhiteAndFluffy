@@ -8,14 +8,13 @@
 import UIKit
 import SwiftUI
 
-class ViewController: UIViewController {
+class SearchController: UIViewController {
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: 160, height: 160)
-        // layout.scrollDirection = .horizontal
-        
+
         let collection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collection.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
         collection.backgroundColor = UIColor.white
@@ -24,59 +23,86 @@ class ViewController: UIViewController {
         return collection
     }()
     
-    var photos = Photos()
+    private let customRefreshControl = UIRefreshControl()
     
-    class func speciman() -> ViewController {
-        return ViewController()
+    private var photos = Photos()
+    private var searchWord: String = "cats" {
+        didSet {
+            photos.clean()
+        }
+    }
+    
+    class func speciman() -> SearchController {
+        return SearchController()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("hi ho ho")
-        
-        
+
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        photos.getRandom(completion: { [weak self] _ in
-            self?.collectionView.reloadData()
-        })
+        getPhotos()
+        
+        customRefreshControl.addTarget(self, action: #selector(loadClean(_:)), for: .valueChanged)
+        collectionView.refreshControl = customRefreshControl
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("hohoho")
+    @objc private func loadClean(_ sender: Any) {
+        photos.clean()
+        getPhotos()
+    }
+    
+    private func getPhotos() {
+        if searchWord == "" {
+            photos.getRandom(completion: { [weak self] _ in
+                self?.collectionView.reloadData()
+            })
+        } else {
+            photos.getSearch(by: searchWord, completion: { [weak self] _ in
+                self?.collectionView.reloadData()
+            })
+        }
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        photos.content.count
+        photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionCell else {fatalError("Unabel to create cell")}
-        cell.image.kf.setImage(with: URL(string: photos.content[indexPath.row].urls?.small ?? ""))
-          
+        cell.image.kf.setImage(with: URL(string: photos.getPhoto(by: indexPath.row)?.urls?.small ?? ""))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Collection view at row \(collectionView.tag) selected index path \(indexPath)")
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let lastRow = indexPath.row
+        if lastRow == photos.count - 1 {
+            if !photos.isLoading {
+                getPhotos()
+            }
+            
+        }
+    }
 }
 
 class CollectionCell: UICollectionViewCell {
     
     lazy var image: UIImageView = {
-        let img = UIImageView(frame: CGRect(x: 10, y: 6, width: self.frame.width - 20, height: 110))
+        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        img.contentMode = .scaleAspectFit
         addSubview(img)
         return img
     }()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func layoutSubviews() {
