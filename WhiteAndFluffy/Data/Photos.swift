@@ -47,6 +47,7 @@ class Photos {
             self.isLoading = false
         }, failure: { error in
             print(error)
+            completion(false)
             self.isLoading = false
         })
     }
@@ -63,6 +64,7 @@ class Photos {
                 self.currentPage += 1
             }, failure: { error in
                 print(error)
+                completion(false)
                 self.isLoading = false
             })
         }
@@ -76,10 +78,19 @@ class Photos {
             self.isLoading = false
         }, failure: { error in
             print(error)
+            completion(false)
             self.isLoading = false
         })
     }
     
+    class func setLike(_ like: Bool, for id: String, completion: @escaping (Bool) -> Void) {
+        let unsplash = Unsplash.shared
+        unsplash.like(id, like: like, success: { _, _ in
+            completion(true)
+        }, failure: { _ in
+            completion(false)
+        })
+    }
 
 }
 

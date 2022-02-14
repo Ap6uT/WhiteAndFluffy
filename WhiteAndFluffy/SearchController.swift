@@ -88,7 +88,8 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Collection view at row \(collectionView.tag) selected index path \(indexPath)")
+        let vc = PhotoDetailController.speciman(data: photos.getPhoto(by: indexPath.row))
+        present(vc, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

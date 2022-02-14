@@ -20,16 +20,22 @@ struct PhotoPages: Codable {
 struct PhotoInfo: Codable {
     let id: String?
     let user: User?
-    let liked: Bool?
+    var liked: Bool?
     let urls: PhotoURLs?
+    let location: Location?
+    let downloads: Int?
     
     enum CodingKeys: String, CodingKey {
         case liked = "liked_by_user"
-        case id, urls, user
+        case id, urls, user, location, downloads
     }
 }
 
 struct User: Codable {
+    let name: String?
+}
+
+struct Location: Codable {
     let name: String?
 }
 

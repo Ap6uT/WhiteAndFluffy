@@ -30,7 +30,7 @@ class LikeController: UIViewController {
         
         tableView.register(Cell.self, forCellReuseIdentifier: "Cell")
         
-        photos.getRandom(completion: { [weak self] success in
+        photos.getLiked(completion: { [weak self] success in
             self?.tableView.reloadData()
         })
     }
@@ -39,19 +39,24 @@ class LikeController: UIViewController {
 
 extension LikeController: UITableViewDelegate, UITableViewDataSource {
      
-   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return photos.count
-     }
-     
-   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {fatalError("Unabel to create cell")}
-       cell.setup(for: photos.getPhoto(by: indexPath.row))
-       return cell
-     }
-     
-   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 120
-     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return photos.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {fatalError("Unabel to create cell")}
+        cell.setup(for: photos.getPhoto(by: indexPath.row))
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = PhotoDetailController.speciman(data: photos.getPhoto(by: indexPath.row))
+        present(vc, animated: true, completion: nil)
+    }
 }
 
 
@@ -68,6 +73,7 @@ class Cell: UITableViewCell {
     
     lazy var image: UIImageView = {
         let img = UIImageView(frame: CGRect(x: 10, y: 10, width: 100, height: 100))
+        img.contentMode = .scaleAspectFit
         addSubview(img)
         return img
     }()
