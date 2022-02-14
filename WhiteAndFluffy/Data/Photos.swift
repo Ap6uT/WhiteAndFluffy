@@ -68,6 +68,17 @@ class Photos {
         }
     }
     
+    func getLiked(completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        unsplash.likedPhotos(success: { data, totalPages in
+            self.content += data
+            completion(true)
+            self.isLoading = false
+        }, failure: { error in
+            print(error)
+            self.isLoading = false
+        })
+    }
     
 
 }

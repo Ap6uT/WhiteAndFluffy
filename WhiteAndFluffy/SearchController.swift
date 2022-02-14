@@ -19,7 +19,8 @@ class SearchController: UIViewController {
         collection.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
         collection.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         collection.backgroundColor = UIColor.white
-        
+        collection.dataSource = self
+        collection.delegate = self
         view.addSubview(collection)
         return collection
     }()
@@ -28,8 +29,6 @@ class SearchController: UIViewController {
         let search = UISearchBar()
         search.placeholder = "Search"
         search.delegate = self
-        search.tintColor = .white
-        search.barTintColor = .gray
         search.barStyle = .default
         search.enablesReturnKeyAutomatically = false
         search.sizeToFit()
@@ -39,7 +38,7 @@ class SearchController: UIViewController {
     private let customRefreshControl = UIRefreshControl()
     
     private var photos = Photos()
-    private var searchWord: String = "cats" {
+    private var searchWord: String = "" {
         didSet {
             photos.clean()
         }
@@ -51,17 +50,11 @@ class SearchController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        collectionView.dataSource = self
-        collectionView.delegate = self
         
         getPhotos()
         
         customRefreshControl.addTarget(self, action: #selector(loadClean(_:)), for: .valueChanged)
         collectionView.refreshControl = customRefreshControl
-        
-        
-
     }
     
     @objc private func loadClean(_ sender: Any) {
@@ -71,14 +64,15 @@ class SearchController: UIViewController {
     
     private func getPhotos() {
         if searchWord == "" {
-            photos.getRandom(completion: { [weak self] _ in
-                self?.collectionView.reloadData()
-            })
+            photos.getRandom(completion: { [weak self] _ in self?.update() })
         } else {
-            photos.getSearch(by: searchWord, completion: { [weak self] _ in
-                self?.collectionView.reloadData()
-            })
+            photos.getSearch(by: searchWord, completion: { [weak self] _ in self?.update() })
         }
+    }
+    
+    private func update() {
+        collectionView.reloadData()
+        collectionView.refreshControl?.endRefreshing()
     }
 }
 
@@ -89,7 +83,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionCell else {fatalError("Unabel to create cell")}
-        cell.image.kf.setImage(with: URL(string: photos.getPhoto(by: indexPath.row)?.urls?.small ?? ""))
+        cell.setup(for: photos.getPhoto(by: indexPath.row))
         return cell
     }
     
@@ -139,12 +133,7 @@ class CollectionCell: UICollectionViewCell {
         return img
     }()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func layoutSubviews() {
-        contentView.backgroundColor = UIColor.clear
-        backgroundColor = UIColor.clear
+    func setup(for photo: PhotoInfo?) {
+        image.kf.setImage(with: URL(string: photo?.urls?.small ?? ""))
     }
 }

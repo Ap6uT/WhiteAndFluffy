@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A3D5BB64B4E9C6256EF28859 /* Pods_WhiteAndFluffy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF4A6405510460E77056DDB /* Pods_WhiteAndFluffy.framework */; };
+		D470ED3F27BA39BF002E56E5 /* Unsplash+Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470ED3E27BA39BF002E56E5 /* Unsplash+Like.swift */; };
 		D4A9913827B944D2008BE5C4 /* Unsplash+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A9913727B944D2008BE5C4 /* Unsplash+Search.swift */; };
 		D4BD7ACB27B7A87900235D32 /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD7ACA27B7A87900235D32 /* Unsplash.swift */; };
 		D4BD7ACE27B7A98E00235D32 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD7ACD27B7A98E00235D32 /* Token.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		3CF4A6405510460E77056DDB /* Pods_WhiteAndFluffy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteAndFluffy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		412E9C2C4298C959F1D8C996 /* Pods-WhiteAndFluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteAndFluffy.debug.xcconfig"; path = "Target Support Files/Pods-WhiteAndFluffy/Pods-WhiteAndFluffy.debug.xcconfig"; sourceTree = "<group>"; };
+		D470ED3E27BA39BF002E56E5 /* Unsplash+Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unsplash+Like.swift"; sourceTree = "<group>"; };
 		D4A9913727B944D2008BE5C4 /* Unsplash+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unsplash+Search.swift"; sourceTree = "<group>"; };
 		D4BD7ACA27B7A87900235D32 /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 		D4BD7ACD27B7A98E00235D32 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				D4BD7ACD27B7A98E00235D32 /* Token.swift */,
 				D4BD7ADA27B7CE7700235D32 /* Unsplash+Random.swift */,
 				D4A9913727B944D2008BE5C4 /* Unsplash+Search.swift */,
+				D470ED3E27BA39BF002E56E5 /* Unsplash+Like.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				D4BD7ACB27B7A87900235D32 /* Unsplash.swift in Sources */,
 				D4EED2AE27B460A200CC566A /* SearchController.swift in Sources */,
 				D4BD7ADB27B7CE7700235D32 /* Unsplash+Random.swift in Sources */,
+				D470ED3F27BA39BF002E56E5 /* Unsplash+Like.swift in Sources */,
 				D4EED2AC27B429EC00CC566A /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

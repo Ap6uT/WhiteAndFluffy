@@ -17,12 +17,12 @@ class MainViewController: UITabBarController {
     
     func setup() {
         viewControllers = [
-            vcForTabBar(SearchController.speciman(), icon: UIImage(systemName: "house")!),
-            vcForTabBar(LikeController.speciman(), icon: UIImage(systemName: "person")!),
+            vcForTabBar(SearchController.speciman(), icon: UIImage(systemName: "photo.artframe")),
+            vcForTabBar(LikeController.speciman(), icon: UIImage(systemName: "heart.fill")),
         ]
     }
     
-    func vcForTabBar(_ controller: UIViewController, icon: UIImage, title: String = "") -> UIViewController {
+    func vcForTabBar(_ controller: UIViewController, icon: UIImage?, title: String = "") -> UIViewController {
         let vc = controller
         vc.tabBarItem.image = icon
         if !title.isEmpty { vc.tabBarItem.title = title }
