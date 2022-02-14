@@ -134,18 +134,18 @@
 		D4EED27A27B423AC00CC566A /* WhiteAndFluffy */ = {
 			isa = PBXGroup;
 			children = (
+				D4EED28927B423AD00CC566A /* Info.plist */,
+				D4EED27B27B423AC00CC566A /* AppDelegate.swift */,
+				D4EED2AF27B4614F00CC566A /* LikeController.swift */,
+				D4EED2AB27B429EC00CC566A /* MainViewController.swift */,
+				D4EED27D27B423AC00CC566A /* SceneDelegate.swift */,
+				D4EED2AD27B460A200CC566A /* SearchController.swift */,
+				D4EED28427B423AD00CC566A /* Assets.xcassets */,
+				D4BD7AC927B7A84900235D32 /* API */,
 				D4BD7ADC27B7D37500235D32 /* Data */,
 				D4BD7ACF27B7B27600235D32 /* Extensions */,
-				D4BD7ACC27B7A8E000235D32 /* Model */,
-				D4BD7AC927B7A84900235D32 /* API */,
-				D4EED27B27B423AC00CC566A /* AppDelegate.swift */,
-				D4EED27D27B423AC00CC566A /* SceneDelegate.swift */,
-				D4EED2AB27B429EC00CC566A /* MainViewController.swift */,
-				D4EED2AD27B460A200CC566A /* SearchController.swift */,
-				D4EED2AF27B4614F00CC566A /* LikeController.swift */,
-				D4EED28427B423AD00CC566A /* Assets.xcassets */,
 				D4EED28627B423AD00CC566A /* LaunchScreen.storyboard */,
-				D4EED28927B423AD00CC566A /* Info.plist */,
+				D4BD7ACC27B7A8E000235D32 /* Model */,
 			);
 			path = WhiteAndFluffy;
 			sourceTree = "<group>";

@@ -17,10 +17,23 @@ class SearchController: UIViewController {
 
         let collection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collection.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
+        collection.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         collection.backgroundColor = UIColor.white
         
         view.addSubview(collection)
         return collection
+    }()
+    
+    private lazy var searchBar: UISearchBar = {
+        let search = UISearchBar()
+        search.placeholder = "Search"
+        search.delegate = self
+        search.tintColor = .white
+        search.barTintColor = .gray
+        search.barStyle = .default
+        search.enablesReturnKeyAutomatically = false
+        search.sizeToFit()
+        return search
     }()
     
     private let customRefreshControl = UIRefreshControl()
@@ -46,6 +59,9 @@ class SearchController: UIViewController {
         
         customRefreshControl.addTarget(self, action: #selector(loadClean(_:)), for: .valueChanged)
         collectionView.refreshControl = customRefreshControl
+        
+        
+
     }
     
     @objc private func loadClean(_ sender: Any) {
@@ -66,7 +82,7 @@ class SearchController: UIViewController {
     }
 }
 
-extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         photos.count
     }
@@ -89,6 +105,28 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             }
             
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath)
+        header.addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.leftAnchor.constraint(equalTo: header.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: header.rightAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: header.topAnchor).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        return header
+    }
+}
+
+extension SearchController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchWord = searchBar.text ?? ""
+        getPhotos()
     }
 }
 

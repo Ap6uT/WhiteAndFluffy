@@ -80,7 +80,7 @@ public class Unsplash {
         case .post:
             urlRequest.httpBody = Data(parameters: parameters)
         }
-        print(urlRequest)
+
         return urlRequest
     
     }

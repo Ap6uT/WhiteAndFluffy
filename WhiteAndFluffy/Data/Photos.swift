@@ -41,10 +41,8 @@ class Photos {
     
     func getRandom(completion: @escaping (Bool) -> Void) {
         isLoading = true
-        // let nextPage = currentPage + 1
         unsplash.randomPhotos(success: { data, totalPages in
             self.content += data
-//            self.totalPages = totalPages
             completion(true)
             self.isLoading = false
         }, failure: { error in
@@ -56,7 +54,6 @@ class Photos {
     func getSearch(by keyword: String, completion: @escaping (Bool) -> Void) {
         isLoading = true
         let nextPage = currentPage + 1
-        print(currentPage)
         if nextPage <= totalPages {
             unsplash.searchPhotos(keyword: keyword, page: nextPage, success: { data, totalPages in
                 self.content += data
