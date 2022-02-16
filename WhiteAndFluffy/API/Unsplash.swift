@@ -27,7 +27,7 @@ public class Unsplash {
     
     typealias SuccessHandler = (_ photos: [PhotoInfo], _ pagesCount: Int) -> Void
 
-    typealias FailureHandler = (_ error: Error) -> Void
+    typealias FailureHandler = (_ error: Error?) -> Void
     
     func request (_ endpoint: String,
                                         method: HTTPMethod = .get,
@@ -39,26 +39,22 @@ public class Unsplash {
 
         urlSession.dataTask(with: urlRequest) { data, _, error in
             if let data = data {
-                print(NSString(data: data, encoding:String.Encoding.utf8.rawValue)!)
                 DispatchQueue.global(qos: .utility).async {
-                    do { 
-                        let jsonDecoder = JSONDecoder()
-                        let result = try jsonDecoder.decode([PhotoInfo].self, from: data)
+                    let jsonDecoder = JSONDecoder()
+                    if let result = try? jsonDecoder.decode([PhotoInfo].self, from: data) {
                         DispatchQueue.main.async {
                             success?(result, 0)
                         }
-                    } catch {
-                        do {
-                            let jsonDecoder = JSONDecoder()
-                            let result = try jsonDecoder.decode(PhotoPages.self, from: data)
-                            DispatchQueue.main.async {
-                                success?(result.results ?? [], result.totalPages ?? 0)
-                            }
-                        } catch let error {
-                            DispatchQueue.main.async {
-                                failure?(error)
-                            }
+                        return
+                    }
+                    if let result = try? jsonDecoder.decode(PhotoPages.self, from: data) {
+                        DispatchQueue.main.async {
+                            success?(result.results ?? [], result.totalPages ?? 0)
                         }
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        failure?(error)
                     }
                 }
             } else if let error = error {
@@ -69,7 +65,7 @@ public class Unsplash {
     }
     
     private func buildURLRequest(_ endpoint: String, method: HTTPMethod, parameters: Parameters) -> URLRequest {
-        let url = URL(string: API.baseURL + endpoint)! //.appendingQueryParameters(["client_id": accessKey])
+        let url = URL(string: API.baseURL + endpoint)!
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
