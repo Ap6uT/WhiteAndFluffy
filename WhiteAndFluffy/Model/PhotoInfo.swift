@@ -22,8 +22,36 @@ struct PhotoInfo: Codable {
     let user: User?
     var liked: Bool?
     let urls: PhotoURLs?
-    let location: Location?
+    let location: LocationType?
     let downloads: Int?
+    
+    enum LocationType : Codable {
+        case string(String)
+        case locationInfo(Location)
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let x = try? container.decode(String.self) {
+                self = .string(x)
+                return
+            }
+            if let x = try? container.decode(Location.self) {
+                self = .locationInfo(x)
+                return
+            }
+            throw DecodingError.typeMismatch(LocationType.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type"))
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            switch self {
+            case .string(let x):
+                try container.encode(x)
+            case .locationInfo(let x):
+                try container.encode(x)
+            }
+        }
+    }
     
     enum CodingKeys: String, CodingKey {
         case liked = "liked_by_user"

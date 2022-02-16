@@ -9,7 +9,6 @@ import UIKit
 
 public class Unsplash {
     
-    
     public static let shared = Unsplash()
 
     private init() {

@@ -91,7 +91,13 @@ class PhotoDetailController: UIViewController {
         if let photo = photo {
             image.kf.setImage(with: URL(string: photo.urls?.full ?? ""))
             nameLabel.text = photo.user?.name ?? "Unknown User"
-            placeLabel.text = photo.location?.name ?? "Unknown Location"
+            let locationText: String
+            switch photo.location {
+                case .string(let x): locationText = x
+                case .locationInfo(let x): locationText = x.name ?? "Unknown Location"
+                default: locationText = "Unknown Location"
+            }
+            placeLabel.text = locationText
             downloadCountLabel.text = "Downloads: \(photo.downloads ?? 0)"
             buttonTitleToggle()
         }

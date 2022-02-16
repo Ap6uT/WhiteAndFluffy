@@ -11,6 +11,8 @@
 		D470ED3F27BA39BF002E56E5 /* Unsplash+Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470ED3E27BA39BF002E56E5 /* Unsplash+Like.swift */; };
 		D4A9913827B944D2008BE5C4 /* Unsplash+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A9913727B944D2008BE5C4 /* Unsplash+Search.swift */; };
 		D4A9913A27BAD1BE008BE5C4 /* PhotoDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A9913927BAD1BE008BE5C4 /* PhotoDetailController.swift */; };
+		D4B2A03F27BD6B2C00B16BFC /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2A03E27BD6B2C00B16BFC /* SearchCell.swift */; };
+		D4B2A04127BD6BC100B16BFC /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2A04027BD6BC100B16BFC /* LikeCell.swift */; };
 		D4BD7ACB27B7A87900235D32 /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD7ACA27B7A87900235D32 /* Unsplash.swift */; };
 		D4BD7ACE27B7A98E00235D32 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD7ACD27B7A98E00235D32 /* Token.swift */; };
 		D4BD7AD127B7B28900235D32 /* URL+Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD7AD027B7B28900235D32 /* URL+Parameters.swift */; };
@@ -33,6 +35,8 @@
 		D470ED3E27BA39BF002E56E5 /* Unsplash+Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unsplash+Like.swift"; sourceTree = "<group>"; };
 		D4A9913727B944D2008BE5C4 /* Unsplash+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unsplash+Search.swift"; sourceTree = "<group>"; };
 		D4A9913927BAD1BE008BE5C4 /* PhotoDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailController.swift; sourceTree = "<group>"; };
+		D4B2A03E27BD6B2C00B16BFC /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		D4B2A04027BD6BC100B16BFC /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
 		D4BD7ACA27B7A87900235D32 /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 		D4BD7ACD27B7A98E00235D32 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		D4BD7AD027B7B28900235D32 /* URL+Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Parameters.swift"; sourceTree = "<group>"; };
@@ -79,6 +83,43 @@
 				EE392D580D818006C22F4DF4 /* Pods-WhiteAndFluffy.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D4B2A03A27BD6A8000B16BFC /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D4EED2AB27B429EC00CC566A /* MainViewController.swift */,
+				D4B2A03D27BD6B0500B16BFC /* Details */,
+				D4B2A03C27BD6AFA00B16BFC /* Liked */,
+				D4B2A03B27BD6AED00B16BFC /* Search */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		D4B2A03B27BD6AED00B16BFC /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				D4EED2AD27B460A200CC566A /* SearchController.swift */,
+				D4B2A03E27BD6B2C00B16BFC /* SearchCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		D4B2A03C27BD6AFA00B16BFC /* Liked */ = {
+			isa = PBXGroup;
+			children = (
+				D4EED2AF27B4614F00CC566A /* LikeController.swift */,
+				D4B2A04027BD6BC100B16BFC /* LikeCell.swift */,
+			);
+			path = Liked;
+			sourceTree = "<group>";
+		};
+		D4B2A03D27BD6B0500B16BFC /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				D4A9913927BAD1BE008BE5C4 /* PhotoDetailController.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 		D4BD7AC927B7A84900235D32 /* API */ = {
@@ -141,17 +182,14 @@
 			children = (
 				D4EED28927B423AD00CC566A /* Info.plist */,
 				D4EED27B27B423AC00CC566A /* AppDelegate.swift */,
-				D4EED2AF27B4614F00CC566A /* LikeController.swift */,
-				D4A9913927BAD1BE008BE5C4 /* PhotoDetailController.swift */,
-				D4EED2AB27B429EC00CC566A /* MainViewController.swift */,
 				D4EED27D27B423AC00CC566A /* SceneDelegate.swift */,
-				D4EED2AD27B460A200CC566A /* SearchController.swift */,
 				D4EED28427B423AD00CC566A /* Assets.xcassets */,
 				D4BD7AC927B7A84900235D32 /* API */,
 				D4BD7ADC27B7D37500235D32 /* Data */,
 				D4BD7ACF27B7B27600235D32 /* Extensions */,
 				D4EED28627B423AD00CC566A /* LaunchScreen.storyboard */,
 				D4BD7ACC27B7A8E000235D32 /* Model */,
+				D4B2A03A27BD6A8000B16BFC /* Screens */,
 			);
 			path = WhiteAndFluffy;
 			sourceTree = "<group>";
@@ -271,8 +309,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4BD7AD327B7B51900235D32 /* PhotoInfo.swift in Sources */,
+				D4B2A03F27BD6B2C00B16BFC /* SearchCell.swift in Sources */,
 				D4EED27C27B423AC00CC566A /* AppDelegate.swift in Sources */,
 				D4BD7AD127B7B28900235D32 /* URL+Parameters.swift in Sources */,
+				D4B2A04127BD6BC100B16BFC /* LikeCell.swift in Sources */,
 				D4BD7ACE27B7A98E00235D32 /* Token.swift in Sources */,
 				D4EED27E27B423AC00CC566A /* SceneDelegate.swift in Sources */,
 				D4EED2B027B4614F00CC566A /* LikeController.swift in Sources */,

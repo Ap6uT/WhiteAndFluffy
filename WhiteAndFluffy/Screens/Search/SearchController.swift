@@ -16,7 +16,7 @@ class SearchController: UIViewController {
         layout.itemSize = CGSize(width: 160, height: 160)
 
         let collection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collection.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
+        collection.register(SearchCell.self, forCellWithReuseIdentifier: "CollectionCell")
         collection.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         collection.backgroundColor = UIColor.white
         collection.dataSource = self
@@ -82,7 +82,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionCell else {fatalError("Unabel to create cell")}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? SearchCell else {fatalError("Unable to create cell")}
         cell.setup(for: photos.getPhoto(by: indexPath.row))
         return cell
     }
@@ -122,19 +122,5 @@ extension SearchController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchWord = searchBar.text ?? ""
         getPhotos()
-    }
-}
-
-class CollectionCell: UICollectionViewCell {
-    
-    lazy var image: UIImageView = {
-        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        img.contentMode = .scaleAspectFit
-        addSubview(img)
-        return img
-    }()
-
-    func setup(for photo: PhotoInfo?) {
-        image.kf.setImage(with: URL(string: photo?.urls?.small ?? ""))
     }
 }

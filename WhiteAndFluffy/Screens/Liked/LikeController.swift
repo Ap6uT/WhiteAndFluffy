@@ -21,6 +21,7 @@ class LikeController: UIViewController {
         table.delegate = self
         table.dataSource = self
         table.frame = self.view.frame
+        table.register(LikedCell.self, forCellReuseIdentifier: "Cell")
         view.addSubview(table)
         return table
     }()
@@ -28,7 +29,6 @@ class LikeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(Cell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +48,7 @@ extension LikeController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {fatalError("Unabel to create cell")}
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? LikedCell else {fatalError("Unabel to create cell")}
         cell.setup(for: photos.getPhoto(by: indexPath.row))
         return cell
     }
@@ -61,30 +61,4 @@ extension LikeController: UITableViewDelegate, UITableViewDataSource {
         let vc = PhotoDetailController.speciman(data: photos.getPhoto(by: indexPath.row))
         present(vc, animated: true, completion: nil)
     }
-}
-
-
-
-class Cell: UITableViewCell {
-    
-    lazy var label: UILabel = {
-        let lbl = UILabel(frame: CGRect(x: 120, y: 45, width: self.frame.width - 130, height: 30))
-        lbl.font = .systemFont(ofSize: 20)
-        lbl.textAlignment = .left
-        addSubview(lbl)
-        return lbl
-    }()
-    
-    lazy var image: UIImageView = {
-        let img = UIImageView(frame: CGRect(x: 10, y: 10, width: 100, height: 100))
-        img.contentMode = .scaleAspectFit
-        addSubview(img)
-        return img
-    }()
-    
-    func setup(for photo: PhotoInfo?) {
-        label.text = photo?.user?.name ?? "Unknown User"
-        image.kf.setImage(with: URL(string: photo?.urls?.small ?? ""))
-    }
-
 }
