@@ -67,7 +67,16 @@ class PhotoDetailController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setupPhoto()
         setup()
+        if let id = photo?.id {
+            Photos.getPhoto(by: id, completion: { [weak self] photo in
+                if let photo = photo {
+                    self?.photo = photo
+                    self?.setup()
+                }
+            })
+        }
     }
     
     @objc func buttonAction(sender: UIButton!) {
@@ -86,18 +95,23 @@ class PhotoDetailController: UIViewController {
         let likeButtonText = (photo?.liked ?? false) ? "Unlike" : "Like"
         likeButton.setTitle(likeButtonText, for: .normal)
     }
+    
+    func setupPhoto() {
+        if let photo = photo {
+            image.kf.setImage(with: URL(string: photo.urls?.full ?? ""))
+        }
+    }
 
     func setup() {
         if let photo = photo {
-            image.kf.setImage(with: URL(string: photo.urls?.full ?? ""))
             nameLabel.text = photo.user?.name ?? "Unknown User"
-            let locationText: String
-            switch photo.location {
-                case .string(let x): locationText = x
-                case .locationInfo(let x): locationText = x.name ?? "Unknown Location"
-                default: locationText = "Unknown Location"
+            let locationName: String
+            if let country = photo.location?.country, let city = photo.location?.city {
+                locationName = "\(country), " + city
+            } else {
+                locationName = "Unknown Location"
             }
-            placeLabel.text = locationText
+            placeLabel.text = locationName
             downloadCountLabel.text = "Downloads: \(photo.downloads ?? 0)"
             buttonTitleToggle()
         }

@@ -92,5 +92,17 @@ class Photos {
         })
     }
 
+    class func getPhoto(by id: String, completion: @escaping (PhotoInfo?) -> Void) {
+        let unsplash = Unsplash.shared
+        unsplash.singlePhoto(id, success: { data, totalPages in
+            if !data.isEmpty {
+                completion(data.first)
+            } else {
+                completion(nil)
+            }
+        }, failure: { _ in
+            completion(nil)
+        })
+    }
 }
 

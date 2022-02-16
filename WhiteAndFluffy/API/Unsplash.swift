@@ -40,6 +40,12 @@ public class Unsplash {
             if let data = data {
                 DispatchQueue.global(qos: .utility).async {
                     let jsonDecoder = JSONDecoder()
+                    if let result = try? jsonDecoder.decode(PhotoInfo.self, from: data) {
+                        DispatchQueue.main.async {
+                            success?([result], 0)
+                        }
+                        return
+                    }
                     if let result = try? jsonDecoder.decode([PhotoInfo].self, from: data) {
                         DispatchQueue.main.async {
                             success?(result, 0)
@@ -52,6 +58,7 @@ public class Unsplash {
                         }
                         return
                     }
+                    
                     DispatchQueue.main.async {
                         failure?(error)
                     }
