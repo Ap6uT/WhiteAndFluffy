@@ -27,9 +27,13 @@ class LikeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.register(Cell.self, forCellReuseIdentifier: "Cell")
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        photos.clean()
         photos.getLiked(completion: { [weak self] success in
             self?.tableView.reloadData()
         })

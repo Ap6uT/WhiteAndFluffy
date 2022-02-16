@@ -57,7 +57,7 @@ class PhotoDetailController: UIViewController {
     }()
     
     lazy private var likeButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 40, y: view.frame.width + 110, width: view.frame.width - 80, height: 40))
+        let btn = UIButton(frame: CGRect(x: 40, y: view.frame.width + 115, width: view.frame.width - 80, height: 40))
         btn.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         btn.backgroundColor = .lightGray
         view.addSubview(btn)
@@ -71,12 +71,20 @@ class PhotoDetailController: UIViewController {
     }
     
     @objc func buttonAction(sender: UIButton!) {
-        print("aaaaaaa")
+
         if let photo = photo, let liked = photo.liked {
-            Photos.setLike(!liked, for: photo.id ?? "", completion: { [weak self] _ in
-                self?.photo?.liked = !liked
+            Photos.setLike(!liked, for: photo.id ?? "", completion: { [weak self] success in
+                if success {
+                    self?.photo?.liked = !liked
+                    self?.buttonTitleToggle()
+                }
             })
         }
+    }
+    
+    func buttonTitleToggle() {
+        let likeButtonText = (photo?.liked ?? false) ? "Unlike" : "Like"
+        likeButton.setTitle(likeButtonText, for: .normal)
     }
 
     func setup() {
@@ -85,8 +93,7 @@ class PhotoDetailController: UIViewController {
             nameLabel.text = photo.user?.name ?? "Unknown User"
             placeLabel.text = photo.location?.name ?? "Unknown Location"
             downloadCountLabel.text = "Downloads: \(photo.downloads ?? 0)"
-            let likeButtonText = (photo.liked ?? false) ? "Unlike" : "Like"
-            likeButton.setTitle(likeButtonText, for: .normal)
+            buttonTitleToggle()
         }
     }
 

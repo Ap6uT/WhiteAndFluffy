@@ -39,7 +39,7 @@ public class Unsplash {
 
         urlSession.dataTask(with: urlRequest) { data, _, error in
             if let data = data {
-//                print(NSString(data: data, encoding:String.Encoding.utf8.rawValue)!)
+                print(NSString(data: data, encoding:String.Encoding.utf8.rawValue)!)
                 DispatchQueue.global(qos: .utility).async {
                     do { 
                         let jsonDecoder = JSONDecoder()
@@ -69,11 +69,12 @@ public class Unsplash {
     }
     
     private func buildURLRequest(_ endpoint: String, method: HTTPMethod, parameters: Parameters) -> URLRequest {
-        let url = URL(string: API.baseURL + endpoint)!.appendingQueryParameters(["client_id": accessKey])
+        let url = URL(string: API.baseURL + endpoint)! //.appendingQueryParameters(["client_id": accessKey])
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
-
+        urlRequest.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        urlRequest.setValue("Bearer \(auth)", forHTTPHeaderField:"Authorization")
         switch method {
         case .get, .delete:
             urlRequest.url?.appendQueryParameters(parameters)
