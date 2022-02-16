@@ -36,6 +36,11 @@ class LikeController: UIViewController {
         photos.clean()
         photos.getLiked(completion: { [weak self] success in
             self?.tableView.reloadData()
+            if self?.photos.count == 0 {
+                let alert = UIAlertController(title: "Well", message: "You haven't liked anything yet", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self?.present(alert, animated: true, completion: nil)
+            }
         })
     }
 
