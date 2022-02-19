@@ -116,6 +116,18 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
         searchBar.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         return header
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = itemWidth(for: view.frame.width, spacing: 10)
+        return CGSize(width: width, height: width)
+    }
+
+    func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
+        let itemsInRow: CGFloat = 2
+        let totalSpacing: CGFloat = 2 * spacing + (itemsInRow - 1) * spacing
+        let finalWidth = (width - totalSpacing) / itemsInRow
+        return finalWidth - 5.0
+    }
 }
 
 extension SearchController: UISearchBarDelegate {

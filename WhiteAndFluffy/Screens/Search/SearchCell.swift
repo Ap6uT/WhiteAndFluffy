@@ -11,6 +11,8 @@ class SearchCell: UICollectionViewCell {
     
     lazy var image: UIImageView = {
         let img = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+//        img.contentMode = .scaleAspectFit
+//        let img = UIImageView(frame: .zero)
         img.contentMode = .scaleAspectFit
         addSubview(img)
         return img

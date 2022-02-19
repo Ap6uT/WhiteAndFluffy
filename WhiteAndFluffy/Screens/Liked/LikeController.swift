@@ -63,7 +63,16 @@ extension LikeController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = PhotoDetailController.speciman(data: photos.getPhoto(by: indexPath.row))
+        let vc = PhotoDetailController.speciman(data: photos.getPhoto(by: indexPath.row), delegate: self)
         present(vc, animated: true, completion: nil)
+    }
+}
+
+extension LikeController: PhotoDetailControllerDelegate {
+    func needDeletePhoto(_ photo: PhotoInfo) {
+        photos.remove(photo)
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }

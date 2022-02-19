@@ -35,6 +35,10 @@ class Photos {
         content = []
     }
     
+    func remove(_ photo: PhotoInfo) {
+        content.removeAll(where: { $0.id == photo.id })
+    }
+    
     let imageCache = NSCache<AnyObject, AnyObject>()
     
     var isLoading =  false

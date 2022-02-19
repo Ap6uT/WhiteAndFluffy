@@ -9,13 +9,15 @@ import UIKit
 
 class PhotoDetailController: UIViewController {
     
-    class func speciman(data: Any?) -> PhotoDetailController {
+    class func speciman(data: Any?, delegate: PhotoDetailControllerDelegate? = nil) -> PhotoDetailController {
         let vc = PhotoDetailController()
-        vc.photo =  data as? PhotoInfo
+        vc.photo = data as? PhotoInfo
+        vc.delegate = delegate
         return vc
     }
     
     private var photo: PhotoInfo?
+    private var delegate: PhotoDetailControllerDelegate?
     
     lazy private var image: UIImageView = {
         let img = UIImageView(frame: CGRect(x: 10, y: 10, width: view.frame.width - 20, height: view.frame.width - 20))
@@ -79,6 +81,13 @@ class PhotoDetailController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let photo = photo, photo.liked == false {
+            delegate?.needDeletePhoto(photo)
+        }
+    }
+    
     @objc func buttonAction(sender: UIButton!) {
 
         if let photo = photo, let liked = photo.liked {
@@ -117,4 +126,8 @@ class PhotoDetailController: UIViewController {
         }
     }
 
+}
+
+protocol PhotoDetailControllerDelegate {
+    func needDeletePhoto(_ photo: PhotoInfo)
 }
