@@ -24,43 +24,27 @@ public class Unsplash {
         case get = "GET", post = "POST", delete = "DELETE"
     }
     
-    typealias SuccessHandler = (_ photos: [PhotoInfo], _ pagesCount: Int) -> Void
+    typealias SuccessHandler<T> = (_ data: T) -> Void
 
     typealias FailureHandler = (_ error: Error?) -> Void
     
-    func request (_ endpoint: String,
-                                        method: HTTPMethod = .get,
-                                        parameters: Parameters = [:],
-                                        success: SuccessHandler?,
-                                        failure: FailureHandler?) {
+    func request<T: Codable>(_ endpoint: String, method: HTTPMethod = .get, parameters: Parameters = [:], success: SuccessHandler<T>?, failure: FailureHandler?) {
 
         let urlRequest = buildURLRequest(endpoint, method: method, parameters: parameters)
 
         urlSession.dataTask(with: urlRequest) { data, _, error in
             if let data = data {
                 DispatchQueue.global(qos: .utility).async {
-                    let jsonDecoder = JSONDecoder()
-                    if let result = try? jsonDecoder.decode(PhotoInfo.self, from: data) {
+                    do {
+                        let jsonDecoder = JSONDecoder()
+                        let result = try jsonDecoder.decode(T.self, from: data)
                         DispatchQueue.main.async {
-                            success?([result], 0)
+                            success?(result)
                         }
-                        return
-                    }
-                    if let result = try? jsonDecoder.decode([PhotoInfo].self, from: data) {
+                    } catch let error {
                         DispatchQueue.main.async {
-                            success?(result, 0)
+                            failure?(error)
                         }
-                        return
-                    }
-                    if let result = try? jsonDecoder.decode(PhotoPages.self, from: data) {
-                        DispatchQueue.main.async {
-                            success?(result.results ?? [], result.totalPages ?? 0)
-                        }
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        failure?(error)
                     }
                 }
             } else if let error = error {

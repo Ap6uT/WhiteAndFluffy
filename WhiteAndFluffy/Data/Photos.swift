@@ -41,7 +41,7 @@ class Photos {
     
     func getRandom(completion: @escaping (Bool) -> Void) {
         isLoading = true
-        unsplash.randomPhotos(success: { data, totalPages in
+        unsplash.randomPhotos(success: { data in
             self.content += data
             completion(true)
             self.isLoading = false
@@ -56,9 +56,9 @@ class Photos {
         isLoading = true
         let nextPage = currentPage + 1
         if nextPage <= totalPages {
-            unsplash.searchPhotos(keyword: keyword, page: nextPage, success: { data, totalPages in
-                self.content += data
-                self.totalPages = totalPages
+            unsplash.searchPhotos(keyword: keyword, page: nextPage, success: { data in
+                self.content += data.results ?? []
+                self.totalPages = data.totalPages ?? 1
                 completion(true)
                 self.isLoading = false
                 self.currentPage += 1
@@ -72,7 +72,7 @@ class Photos {
     
     func getLiked(completion: @escaping (Bool) -> Void) {
         isLoading = true
-        unsplash.likedPhotos(success: { data, totalPages in
+        unsplash.likedPhotos(success: { data in
             self.content += data
             completion(true)
             self.isLoading = false
@@ -85,7 +85,7 @@ class Photos {
     
     class func setLike(_ like: Bool, for id: String, completion: @escaping (Bool) -> Void) {
         let unsplash = Unsplash.shared
-        unsplash.like(id, like: like, success: { _, _ in
+        unsplash.like(id, like: like, success: { _ in
             completion(true)
         }, failure: { _ in
             completion(false)
@@ -94,12 +94,8 @@ class Photos {
 
     class func getPhoto(by id: String, completion: @escaping (PhotoInfo?) -> Void) {
         let unsplash = Unsplash.shared
-        unsplash.singlePhoto(id, success: { data, totalPages in
-            if !data.isEmpty {
-                completion(data.first)
-            } else {
-                completion(nil)
-            }
+        unsplash.singlePhoto(id, success: { data in
+            completion(data)
         }, failure: { _ in
             completion(nil)
         })

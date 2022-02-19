@@ -8,7 +8,7 @@
 import Foundation
 
 extension Unsplash {
-    func singlePhoto(_ id: String, success: SuccessHandler?, failure: FailureHandler? = nil) {
+    func singlePhoto(_ id: String, success: SuccessHandler<PhotoInfo>?, failure: FailureHandler? = nil) {
         request("photos/\(id)", success: success, failure: failure)
     }
 }
