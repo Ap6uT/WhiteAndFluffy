@@ -23,11 +23,13 @@ struct PhotoInfo: Codable {
     var liked: Bool?
     let urls: PhotoURLs?
     let location: Location?
+    let width: Int?
+    let height: Int?
     let downloads: Int?
     
     enum CodingKeys: String, CodingKey {
         case liked = "liked_by_user"
-        case id, urls, user, location, downloads
+        case id, urls, user, location, downloads, width, height
     }
 }
 

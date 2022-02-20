@@ -18,16 +18,29 @@ class PhotoDetailController: UIViewController {
     
     private var photo: PhotoInfo?
     private var delegate: PhotoDetailControllerDelegate?
-    
+
     lazy private var image: UIImageView = {
-        let img = UIImageView(frame: CGRect(x: 10, y: 10, width: view.frame.width - 20, height: view.frame.width - 20))
+        var leftAnchor: CGFloat = 10
+        var photoWidth = view.frame.width - 20
+        var photoHeight = photoWidth
+        if let photo = photo, let width = photo.width, let height = photo.height {
+            photoHeight = photoWidth * CGFloat(height) / CGFloat(width)
+            if photoHeight > view.frame.height - 250 {
+                photoHeight = view.frame.height - 250
+                photoWidth = photoHeight * CGFloat(width) / CGFloat(height)
+                leftAnchor = (view.frame.width - photoWidth) / 2
+            }
+        } else {
+            photoHeight = view.frame.width - 20
+        }
+        let img = UIImageView(frame: CGRect(x: leftAnchor, y: 10, width: photoWidth, height: photoHeight))
         img.contentMode = .scaleAspectFit
         view.addSubview(img)
         return img
     }()
     
     lazy private var nameLabel: UILabel = {
-        let lbl = UILabel(frame: CGRect(x: 20, y: view.frame.width + 10, width: view.frame.width - 40, height: 30))
+        let lbl = UILabel(frame: CGRect(x: 35, y: view.frame.height - 240, width: view.frame.width - 40, height: 30))
         lbl.font = .systemFont(ofSize: 20)
         lbl.textAlignment = .left
         view.addSubview(lbl)
@@ -35,7 +48,7 @@ class PhotoDetailController: UIViewController {
     }()
     
     lazy private var dateLabel: UILabel = {
-        let lbl = UILabel(frame: CGRect(x: 20, y: view.frame.width + 40, width: view.frame.width - 40, height: 30))
+        let lbl = UILabel(frame: CGRect(x: 35, y: view.frame.height - 220, width: view.frame.width - 40, height: 30))
         lbl.font = .systemFont(ofSize: 17)
         lbl.textAlignment = .left
         view.addSubview(lbl)
@@ -43,7 +56,7 @@ class PhotoDetailController: UIViewController {
     }()
     
     lazy private var placeLabel: UILabel = {
-        let lbl = UILabel(frame: CGRect(x: 20, y: view.frame.width + 60, width: view.frame.width - 40, height: 30))
+        let lbl = UILabel(frame: CGRect(x: 35, y: view.frame.height - 200, width: view.frame.width - 40, height: 30))
         lbl.font = .systemFont(ofSize: 17)
         lbl.textAlignment = .left
         view.addSubview(lbl)
@@ -51,7 +64,7 @@ class PhotoDetailController: UIViewController {
     }()
     
     lazy private var downloadCountLabel: UILabel = {
-        let lbl = UILabel(frame: CGRect(x: 20, y: view.frame.width + 80, width: view.frame.width - 40, height: 30))
+        let lbl = UILabel(frame: CGRect(x: 35, y: view.frame.height - 180, width: view.frame.width - 40, height: 30))
         lbl.font = .systemFont(ofSize: 17)
         lbl.textAlignment = .left
         view.addSubview(lbl)
@@ -59,7 +72,7 @@ class PhotoDetailController: UIViewController {
     }()
     
     lazy private var likeButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 40, y: view.frame.width + 115, width: view.frame.width - 80, height: 40))
+        let btn = UIButton(frame: CGRect(x: 40, y: view.frame.height - 140, width: view.frame.width - 80, height: 40))
         btn.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         btn.backgroundColor = .lightGray
         view.addSubview(btn)
@@ -107,6 +120,7 @@ class PhotoDetailController: UIViewController {
     
     func setupPhoto() {
         if let photo = photo {
+            image.kf.indicatorType = .activity
             image.kf.setImage(with: URL(string: photo.urls?.full ?? ""))
         }
     }
@@ -118,7 +132,7 @@ class PhotoDetailController: UIViewController {
             if let country = photo.location?.country, let city = photo.location?.city {
                 locationName = "\(country), " + city
             } else {
-                locationName = "Unknown Location"
+                locationName = ""
             }
             placeLabel.text = locationName
             downloadCountLabel.text = "Downloads: \(photo.downloads ?? 0)"

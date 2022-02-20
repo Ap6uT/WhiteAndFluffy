@@ -13,7 +13,6 @@ class SearchController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 160, height: 160)
 
         let collection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collection.register(SearchCell.self, forCellWithReuseIdentifier: "CollectionCell")
@@ -32,6 +31,8 @@ class SearchController: UIViewController {
         search.barStyle = .default
         search.enablesReturnKeyAutomatically = false
         search.sizeToFit()
+        search.translatesAutoresizingMaskIntoConstraints = false
+
         return search
     }()
     
@@ -109,11 +110,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath)
         header.addSubview(searchBar)
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.leftAnchor.constraint(equalTo: header.leftAnchor).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: header.rightAnchor).isActive = true
-        searchBar.topAnchor.constraint(equalTo: header.topAnchor).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        header.frame = header.frame
         return header
     }
     

@@ -19,7 +19,8 @@ class LikedCell: UITableViewCell {
     
     lazy var image: UIImageView = {
         let img = UIImageView(frame: CGRect(x: 10, y: 10, width: 100, height: 100))
-        img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFill
+        img.clipsToBounds = true
         addSubview(img)
         return img
     }()
