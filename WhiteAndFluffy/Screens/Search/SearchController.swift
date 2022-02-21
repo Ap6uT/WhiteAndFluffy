@@ -65,15 +65,27 @@ class SearchController: UIViewController {
     
     private func getPhotos() {
         if searchWord == "" {
-            photos.getRandom(completion: { [weak self] _ in self?.update() })
+            photos.getRandom(completion: { [weak self] success in
+                self?.update(success: success)
+                
+            })
         } else {
-            photos.getSearch(by: searchWord, completion: { [weak self] _ in self?.update() })
+            photos.getSearch(by: searchWord, completion: { [weak self] success in
+                self?.update(success: success)
+                
+            })
         }
     }
     
-    private func update() {
-        collectionView.reloadData()
-        collectionView.refreshControl?.endRefreshing()
+    private func update(success: Bool) {
+        if success {
+            collectionView.reloadData()
+            collectionView.refreshControl?.endRefreshing()
+        } else {
+            let alert = UIAlertController(title: "Not Well", message: "Some kind of error", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

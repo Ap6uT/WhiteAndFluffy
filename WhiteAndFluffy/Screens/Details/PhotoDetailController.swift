@@ -74,7 +74,7 @@ class PhotoDetailController: UIViewController {
     lazy private var likeButton: UIButton = {
         let btn = UIButton(frame: CGRect(x: 40, y: view.frame.height - 140, width: view.frame.width - 80, height: 40))
         btn.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        btn.backgroundColor = .lightGray
+        btn.backgroundColor = (photo?.liked ?? false) ? .lightGray : .red
         view.addSubview(btn)
         return btn
     }()
@@ -114,8 +114,23 @@ class PhotoDetailController: UIViewController {
     }
     
     func buttonTitleToggle() {
-        let likeButtonText = (photo?.liked ?? false) ? "Unlike" : "Like"
+        let liked = photo?.liked ?? false
+        let likeButtonText = liked ? "Unlike" : "Like"
         likeButton.setTitle(likeButtonText, for: .normal)
+        DispatchQueue.main.async { [weak self] in
+            if liked {
+                UIView.animate(withDuration: 1) {
+                    self?.likeButton.backgroundColor = UIColor(red: 1.0, green: 0.0, blue: 0.2, alpha: 1.0)
+                }
+                UIView.animate(withDuration: 0.5) {
+                   self?.likeButton.backgroundColor = UIColor.lightGray
+                }
+            } else {
+                UIView.animate(withDuration: 1) {
+                  self?.likeButton.backgroundColor = UIColor.red
+                }
+            }
+        }
     }
     
     func setupPhoto() {
